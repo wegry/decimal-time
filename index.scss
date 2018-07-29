@@ -1,12 +1,3 @@
-@mixin tricolor($rotation: 90deg) {
-  background-image: linear-gradient(
-    $rotation,
-    #0050A4 33%, 
-    white 33%, 
-    white 66%, 
-    #EF4135 66%)
-}
-
 header {
   position: absolute;
   top: 10px;
@@ -32,16 +23,15 @@ body {
   align-items: center;
   justify-content: center;
   height: 95vh;
+  width: stretch;
   overflow: none;
-  @include tricolor();
+}
+
+.paris {
+  display: flex;
+  justify-content: center;
 }
 
 .decimal-time {
   font-size: 80px;
-}
-
-@media (max-width: 768px) {
-  body {
-    @include tricolor(180deg);
-  }
 }
