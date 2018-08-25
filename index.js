@@ -22,8 +22,8 @@ function conversion (time) {
   // Can't use Date.prototype.getTime here because of UTC v. CEST
   const decimalized = (second + STANDARD_SECONDS_PER_MINUTE * minute + STANDARD_SECONDS_PER_HOUR * hour) / STANDARD_SECONDS_PER_DAY
   const dHours = decimalized * 10
-  const dMinutes = (dHours * 100 % 100)
-  const dSeconds = (DECIMAL_SECONDS_PER_DAY * decimalized + (millisecond / 1000)) % 100
+  const dMinutes = (decimalized * 1000 % 100)
+  const dSeconds = (decimalized * DECIMAL_SECONDS_PER_DAY + (millisecond / 1000)) % 100
   
   return {
     dHours,
