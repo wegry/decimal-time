@@ -19,10 +19,10 @@ function padTime(time) {
 
 function conversion (time) {
   const {second, minute, hour, millisecond} = time 
-  const timeThroughDay = (second + STANDARD_SECONDS_PER_MINUTE * minute + STANDARD_SECONDS_PER_HOUR * hour) / STANDARD_SECONDS_PER_DAY
-  const decimalized = timeThroughDay
+  // Can't use Date.prototype.getTime here because of UTC v. CEST
+  const decimalized = (second + STANDARD_SECONDS_PER_MINUTE * minute + STANDARD_SECONDS_PER_HOUR * hour) / STANDARD_SECONDS_PER_DAY
   const dHours = decimalized * 10
-  const dMinutes = 10 * 100 * (decimalized - (dHours / 10))
+  const dMinutes = (dHours * 100 % 100)
   const dSeconds = (DECIMAL_SECONDS_PER_DAY * decimalized + (millisecond / 1000)) % 100
   
   return {
