@@ -1,4 +1,4 @@
-import { DateTime, Zone } from 'luxon'
+import { DateTime, Settings } from 'luxon'
 
 const STANDARD_SECONDS_PER_MINUTE = 60
 const STANDARD_SECONDS_PER_HOUR = 60 * STANDARD_SECONDS_PER_MINUTE
@@ -7,22 +7,40 @@ const DECIMAL_SECONDS_PER_DAY = 100000
 
 document.addEventListener('DOMContentLoaded', () => {
   updateTime()
-  setInterval(
-    updateTime,
-    STANDARD_SECONDS_PER_DAY / DECIMAL_SECONDS_PER_DAY * 1000)
+  setInterval(updateTime, 16)
 })
 
 function padTime(time) {
-  return String(time).padStart(2, '0')
+  if (time < 1e-10 && time > -1e-10) {
+    return '00'
+  }
+  return String(Math.floor(time)).padStart(2, '0')
 }
 
-function updateTime() {
-  const parisianTime = DateTime.local().setZone('Europe/Paris')
-  const {second, minute, hour} = parisianTime
+function conversion (time) {
+  const {second, minute, hour, millisecond} = time 
   const timeThroughDay = (second + STANDARD_SECONDS_PER_MINUTE * minute + STANDARD_SECONDS_PER_HOUR * hour) / STANDARD_SECONDS_PER_DAY
   const decimalized = timeThroughDay
-  const dHours = Math.floor(decimalized * 10)
-  const dMinutes = Math.floor(10 * 100 * (decimalized - (dHours / 10)))
-  const dSeconds = Math.floor((DECIMAL_SECONDS_PER_DAY * decimalized) % 100)
+  const dHours = decimalized * 10
+  const dMinutes = 10 * 100 * (decimalized - (dHours / 10))
+  const dSeconds = (DECIMAL_SECONDS_PER_DAY * decimalized + (millisecond / 1000)) % 100
+  
+  return {
+    dHours,
+    dMinutes,
+    dSeconds
+  }
+}
+
+Settings.defaultZoneName = 'Europe/Paris'
+
+function updateTime() {
+  const time = DateTime.local()
+  const {
+    dHours,
+    dMinutes,
+    dSeconds
+  } = conversion(time)
+
   document.querySelector('.decimal-time').innerHTML = `${padTime(dHours)}:${padTime(dMinutes)}:${padTime(dSeconds)}`
 }
