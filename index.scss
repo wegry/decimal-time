@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Fira Code';
+  src: url(./FiraCode-VariableFont:wght.ttf);
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 95vh;
+  width: stretch;
+  overflow: none;
+}
+
 header {
   position: absolute;
   top: 10px;
@@ -17,21 +32,13 @@ header {
   }
 }
 
-body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 95vh;
-  width: stretch;
-  overflow: none;
-}
-
 .paris {
   display: flex;
   justify-content: center;
 }
 
 .decimal-time {
+  font-family: 'Fira Code';
+  font-weight: 300;
   font-size: 80px;
 }
