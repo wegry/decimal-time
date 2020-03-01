@@ -3,8 +3,25 @@
   src: url(./FiraCode-VariableFont:wght.ttf);
 }
 
+@font-face {
+  font-family: 'EB Garamond';
+  src: url(./EBGaramond-VariableFont:wght.ttf);
+}
+
+$blue: #0055a4;
+$red: #ef4135;
+
+@mixin circle {
+  border-radius: 50%;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
 body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'EB Garamond', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,13 +31,28 @@ body {
 }
 
 header {
-  position: absolute;
-  top: 10px;
-  right: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: baseline;
+  padding: 0 16px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 450;
+    user-select: none;
+  }
 
   a {
     text-decoration: none;
     color: black;
+
+    &:first-of-type {
+      margin-left: auto;
+    }
   }
 
   a:hover {
@@ -29,6 +61,102 @@ header {
 
   a + a {
     margin-left: 20px;
+  }
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+}
+
+.analog-clock {
+  height: 200px;
+  width: 200px;
+  border: 4px solid $blue;
+  background-color: #f8f8f8;
+  margin: 0 auto;
+  position: relative;
+  @include circle;
+  // https://tobiasahlin.com/blog/layered-smooth-box-shadows/
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.09), 0 4px 2px rgba(0, 0, 0, 0.09),
+    0 8px 4px rgba(0, 0, 0, 0.09), 0 16px 8px rgba(0, 0, 0, 0.09),
+    0 32px 16px rgba(0, 0, 0, 0.09);
+
+  &::after {
+    content: '';
+    @include circle();
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25),
+      inset 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 4px 4px rgba(0, 0, 0, 0.15),
+      inset 0 8px 8px rgba(0, 0, 0, 0.1), inset 0 16px 16px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.hands {
+  transform: rotate(-180deg);
+  transform-origin: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  .hour,
+  .minute,
+  .second {
+    background-color: $red;
+    width: 3px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: top center;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+      0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+      0 16px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .hour {
+    height: 30%;
+  }
+
+  .minute {
+    height: 35%;
+  }
+
+  .second {
+    height: 40%;
+  }
+}
+
+.ticks {
+  @include circle;
+  height: 100%;
+  width: 100%;
+  background: repeating-conic-gradient(
+    from -0.5deg,
+    gray 0 1deg,
+    white 1deg 36deg
+  );
+  border: 4px solid white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    @include circle;
+    height: calc(100% - 16px);
+    width: calc(100% - 16px);
+    background-color: white;
+    content: '';
   }
 }
 

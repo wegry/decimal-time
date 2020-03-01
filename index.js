@@ -40,9 +40,29 @@ function conversion(time) {
 
 Settings.defaultZoneName = 'Europe/Paris'
 
+function rotation(amount, outOf, log = false) {
+  const rotation = (amount / outOf) * 360
+  if (log) {
+    console.log(rotation)
+  }
+  return `rotate(${rotation}deg)`
+}
+
+function handPlacement({ dHours, dMinutes, dSeconds }) {
+  const hourHand = document.querySelector('.hands .hour')
+  const minuteHand = document.querySelector('.hands .minute')
+  const secondHand = document.querySelector('.hands .second')
+
+  hourHand.style.transform = rotation(dHours, 10)
+  minuteHand.style.transform = rotation(dMinutes, 100)
+  secondHand.style.transform = rotation(dSeconds, 100)
+}
+
 function updateTime() {
   const time = DateTime.local()
   const { dHours, dMinutes, dSeconds } = conversion(time)
+
+  handPlacement({ dHours, dMinutes, dSeconds })
 
   document.querySelector('.decimal-time').innerHTML = `${padTime(
     dHours
