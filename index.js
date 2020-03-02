@@ -1,14 +1,33 @@
 import { DateTime, Settings } from 'luxon'
 import './index.scss'
+import * as _ from 'lodash-es'
 
 const STANDARD_SECONDS_PER_MINUTE = 60
 const STANDARD_SECONDS_PER_HOUR = 60 * STANDARD_SECONDS_PER_MINUTE
 const STANDARD_SECONDS_PER_DAY = 86400
 const DECIMAL_SECONDS_PER_DAY = 100000
 
+function renderMarkers() {
+  const ticks = document.querySelector('.ticks')
+
+  for (let i = 1; i <= 10; i++) {
+    const nextTick = document.createElement('div')
+    nextTick.innerHTML = `<div>${i}</div>`
+    nextTick.className = `tick-10 n-${i}`
+    ticks.appendChild(nextTick)
+  }
+
+  for (let i = 1; i <= 100; i++) {
+    const nextTick = document.createElement('div')
+    nextTick.innerHTML = `<div></div>`
+    nextTick.className = `tick-100 n-${i}`
+    ticks.appendChild(nextTick)
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  renderMarkers()
   updateTime()
-  setInterval(updateTime, 16)
 })
 
 function padTime(time) {
@@ -40,31 +59,59 @@ function conversion(time) {
 
 Settings.defaultZoneName = 'Europe/Paris'
 
-function rotation(amount, outOf, log = false) {
-  const rotation = (amount / outOf) * 360
+function rotation(amount, outOf, options) {
+  const { log = false, smoothing = false } = options || {}
+  const smoothed = smoothing ? Math.floor(amount) : amount,
+    rotation = (smoothed / outOf) * 360
+
   if (log) {
     console.log(rotation)
   }
   return `rotate(${rotation}deg)`
 }
 
-function handPlacement({ dHours, dMinutes, dSeconds }) {
+function rotations({ dHours, dMinutes, dSeconds }) {
+  return {
+    hoursRotation: rotation(dHours, 10),
+    minutesRotation: rotation(dMinutes, 100),
+    secondsRotation: rotation(dSeconds, 100, { smoothing: true })
+  }
+}
+
+const handSelectors = _.once(() => {
   const hourHand = document.querySelector('.hands .hour')
   const minuteHand = document.querySelector('.hands .minute')
   const secondHand = document.querySelector('.hands .second')
 
-  hourHand.style.transform = rotation(dHours, 10)
-  minuteHand.style.transform = rotation(dMinutes, 100)
-  secondHand.style.transform = rotation(dSeconds, 100)
-}
+  return { hourHand, minuteHand, secondHand }
+})
 
+const timeDisplay = _.once(() => {
+  return document.querySelector('.decimal-time')
+})
+
+// https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
 function updateTime() {
   const time = DateTime.local()
   const { dHours, dMinutes, dSeconds } = conversion(time)
+  const { hoursRotation, minutesRotation, secondsRotation } = rotations({
+    dHours,
+    dMinutes,
+    dSeconds
+  })
 
-  handPlacement({ dHours, dMinutes, dSeconds })
+  // DOM Reads
+  const { hourHand, minuteHand, secondHand } = handSelectors()
+  const display = timeDisplay()
 
-  document.querySelector('.decimal-time').innerHTML = `${padTime(
-    dHours
-  )}:${padTime(dMinutes)}:${padTime(dSeconds)}`
+  // DOM Writes
+
+  hourHand.style.transform = hoursRotation
+  minuteHand.style.transform = minutesRotation
+  secondHand.style.transform = secondsRotation
+  display.innerHTML = `${padTime(dHours)}:${padTime(dMinutes)}:${padTime(
+    dSeconds
+  )}`
+
+  requestAnimationFrame(updateTime)
 }
