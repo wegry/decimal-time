@@ -6,3 +6,6 @@ node_modules
 .yarn/build-state.yml
 .yarn/releases
 .pnp.js
+.yarn/cache
+.yarn/releases
+.yarn/unplugged
