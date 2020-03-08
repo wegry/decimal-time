@@ -4,7 +4,7 @@
   "devDependencies": {
     "@webpack-cli/serve": "^0.2.0",
     "sass": "^1.18.0",
-    "webpack": "next",
+    "webpack": "^5.0.0-beta.14",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
