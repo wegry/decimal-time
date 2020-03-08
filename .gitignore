@@ -7,5 +7,4 @@ node_modules
 .yarn/releases
 .pnp.js
 .yarn/cache
-.yarn/releases
 .yarn/unplugged
