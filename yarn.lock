@@ -3105,6 +3105,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns-tz@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "date-fns-tz@npm:1.0.10"
+  peerDependencies:
+    date-fns: ">=2.0.0-alpha.13"
+  checksum: 2/03ab2e667cd9dc29659fe6f9c2d815b685a572eb7814cf176514fb34aed856c8cfa7f04bca25d580befd9e5724dd2a8f5f22b778a44917f6089bb551aa5169a5
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.11.1":
+  version: 2.11.1
+  resolution: "date-fns@npm:2.11.1"
+  checksum: 2/f52007ef1c87a257b88ef396e7b540594f6129924a1f7cda241f5953b201f1fddbb5e712dd9501c8662a242371c13cbcf13eee9ca89082611fbf78a58a221d4d
+  languageName: node
+  linkType: hard
+
 "dateformat@npm:^3.0.3":
   version: 3.0.3
   resolution: "dateformat@npm:3.0.3"
@@ -8412,6 +8428,8 @@ resolve@1.1.7:
     autoprefixer: ^9.7.4
     copy-webpack-plugin: ^5.1.1
     css-loader: ^3.4.2
+    date-fns: ^2.11.1
+    date-fns-tz: ^1.0.10
     file-loader: ^5.1.0
     lodash-es: ^4.17.15
     luxon: ^1.22.0
