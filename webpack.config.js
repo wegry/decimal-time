@@ -3,18 +3,18 @@ const path = require('path')
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 
-let plugins = [new CopyWebpackPlugin(['./index.html'])]
+let plugins = [new CopyWebpackPlugin({ patterns: ['./index.html'] })]
 
 module.exports = {
   mode: IS_PROD ? 'production' : 'development',
   entry: {
-    index: './index.js'
+    index: './index.js',
   },
   devtool: IS_PROD ? false : 'inline-cheap-module-source-map',
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   plugins,
   module: {
@@ -28,20 +28,20 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              implementation: require('sass')
-            }
-          }
-        ]
+              implementation: require('sass'),
+            },
+          },
+        ],
       },
       {
         test: /\.(woff2)|(otf)|(ttf)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
-          outputPath: 'fonts'
-        }
-      }
-    ]
+          outputPath: 'fonts',
+        },
+      },
+    ],
   },
   devServer: {
     compress: true,
@@ -57,7 +57,7 @@ module.exports = {
       publicPath: false,
       timings: true,
       version: false,
-      warnings: true
-    }
-  }
+      warnings: true,
+    },
+  },
 }
