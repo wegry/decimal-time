@@ -212,9 +212,10 @@ li {
 
   @for $i from 1 through 10 {
     .tick-10.n-#{$i} {
-      transform: rotate(#{math.div($i, 10) * 360 + 45}deg);
+      $angle: math.div($i, 10) * 360 + 47;
+      transform: rotate(#{$angle}deg);
       > div {
-        transform: rotate(-#{math.div($i,  10) * 360 + 45}deg);
+        transform: rotate(-#{$angle}deg);
       }
     }
   }
