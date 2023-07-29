@@ -8,21 +8,6 @@ const STANDARD_SECONDS_PER_DAY = 86400
 const DECIMAL_SECONDS_PER_DAY = 100000
 const STANDARD_MILLISECONDS_PER_DAY = STANDARD_SECONDS_PER_DAY * 1000
 
-/**
- * https://youmightnotneed.com/lodash
- */
-function once(fn) {
-  let called = false
-  let result
-  return (...args) => {
-    if (!called) {
-      result = fn(...args)
-      called = true
-    }
-    return result
-  }
-}
-
 function renderMarkers() {
   const ticks = document.querySelector('.ticks')
 
@@ -57,11 +42,6 @@ function renderMarkers() {
     ticks.appendChild(nextTick)
   }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderMarkers()
-  updateTime()
-})
 
 function padTime(time) {
   if (time < 1e-10 && time > -1e-10) {
@@ -108,43 +88,65 @@ function rotations({ dHours, dMinutes, dSeconds }) {
   }
 }
 
-const handSelectors = once(() => {
+const domContentLoaded = new Promise((resolve) =>
+  document.addEventListener('DOMContentLoaded', resolve)
+)
+
+async function* timeStream() {
+  while (true) {
+    await new Promise((resolve) => setTimeout(resolve))
+
+    const time = utcToZonedTime(new Date(), timeZone)
+
+    yield conversion(time)
+  }
+}
+
+const hands = (async () => {
+  await domContentLoaded
   const hourHand = document.querySelector('.hands .hour')
   const minuteHand = document.querySelector('.hands .minute')
   const secondHand = document.querySelector('.hands .second')
 
   return { hourHand, minuteHand, secondHand }
-})
+})()
 
-const timeDisplay = once(() => {
-  return document.querySelector('.decimal-time')
-})
-
-// https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
-function updateTime() {
-  const time = utcToZonedTime(new Date(), timeZone)
-
-  const { dHours, dMinutes, dSeconds } = conversion(time)
+async function moveHands({ dHours, dMinutes, dSeconds }) {
+  const { hourHand, minuteHand, secondHand } = await hands
   const { hoursRotation, minutesRotation, secondsRotation } = rotations({
     dHours,
     dMinutes,
     dSeconds,
   })
 
-  // DOM Reads
-  const { hourHand, minuteHand, secondHand } = handSelectors()
-  const display = timeDisplay()
-
-  // DOM Writes
-
   hourHand.style.transform = hoursRotation
   minuteHand.style.transform = minutesRotation
   secondHand.style.transform = secondsRotation
-  display.innerText = [
-    padTime(dHours),
-    padTime(dMinutes),
-    padTime(dSeconds),
-  ].join(',')
-
-  requestAnimationFrame(updateTime)
 }
+
+const timeDisplay = (async () => {
+  await domContentLoaded
+  return document.querySelector('.decimal-time')
+})()
+
+async function writeDisplay({ dHours, dMinutes, dSeconds }) {
+  const next = [padTime(dHours), padTime(dMinutes), padTime(dSeconds)].join(',')
+  const display = await timeDisplay
+
+  if (next === display.innerText) {
+    return
+  }
+
+  display.innerText = next
+}
+
+async function renderTime() {
+  for await (const next of timeStream()) {
+    moveHands(next)
+    writeDisplay(next)
+  }
+}
+
+renderTime()
+await domContentLoaded
+renderMarkers()
