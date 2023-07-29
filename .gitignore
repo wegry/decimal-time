@@ -2,9 +2,10 @@ dist/
 .cache/
 node_modules
 .DS_Store
-.yarn/cache
-.yarn/build-state.yml
-.yarn/releases
-.pnp.js
-.yarn/cache
-.yarn/unplugged
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
