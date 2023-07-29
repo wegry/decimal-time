@@ -71,9 +71,9 @@ function rotation(amount, outOf, options) {
 
 function rotations({ dHours, dMinutes, dSeconds }) {
   return {
-    hoursRotation: rotation(dHours, 10, { snap: false }),
-    minutesRotation: rotation(dMinutes, 100, { snap: false }),
-    secondsRotation: rotation(dSeconds, 100, { snap: true }),
+    hoursRotation: rotation(dHours, 10),
+    minutesRotation: rotation(dMinutes, 100),
+    secondsRotation: rotation(dSeconds, 100),
   }
 }
 
@@ -109,7 +109,7 @@ function updateTime() {
   hourHand.style.transform = hoursRotation
   minuteHand.style.transform = minutesRotation
   secondHand.style.transform = secondsRotation
-  display.innerHTML = [
+  display.innerText = [
     padTime(dHours),
     padTime(dMinutes),
     padTime(dSeconds),
