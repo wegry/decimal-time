@@ -109,9 +109,11 @@ function updateTime() {
   hourHand.style.transform = hoursRotation
   minuteHand.style.transform = minutesRotation
   secondHand.style.transform = secondsRotation
-  display.innerHTML = `${padTime(dHours)}:${padTime(dMinutes)}:${padTime(
-    dSeconds
-  )}`
+  display.innerHTML = [
+    padTime(dHours),
+    padTime(dMinutes),
+    padTime(dSeconds),
+  ].join(',')
 
   requestAnimationFrame(updateTime)
 }
