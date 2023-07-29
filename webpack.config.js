@@ -15,6 +15,7 @@ module.exports = {
     filename: '[name].js',
     chunkFilename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: 'fonts/[name][ext]',
   },
   plugins,
   module: {
@@ -35,29 +36,8 @@ module.exports = {
       },
       {
         test: /\.(woff2)|(otf)|(ttf)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'fonts',
-        },
+        type: 'asset',
       },
     ],
-  },
-  devServer: {
-    compress: true,
-    port: 8999,
-    // Break the server if in prod and trying to use webpack dev server
-    disableHostCheck: !IS_PROD,
-    stats: {
-      assets: true,
-      children: false,
-      chunks: false,
-      hash: false,
-      modules: false,
-      publicPath: false,
-      timings: true,
-      version: false,
-      warnings: true,
-    },
   },
 }

@@ -1,5 +1,5 @@
 import { differenceInMilliseconds, startOfDay } from 'date-fns'
-import { toDate, utcToZonedTime } from 'date-fns-tz'
+import { utcToZonedTime } from 'date-fns-tz'
 
 import './index.scss'
 import * as _ from 'lodash-es'
@@ -54,7 +54,7 @@ function conversion(time) {
   return {
     dHours,
     dMinutes,
-    dSeconds
+    dSeconds,
   }
 }
 
@@ -73,7 +73,7 @@ function rotations({ dHours, dMinutes, dSeconds }) {
   return {
     hoursRotation: rotation(dHours, 10, { snap: false }),
     minutesRotation: rotation(dMinutes, 100, { snap: false }),
-    secondsRotation: rotation(dSeconds, 100, { snap: true })
+    secondsRotation: rotation(dSeconds, 100, { snap: true }),
   }
 }
 
@@ -91,13 +91,13 @@ const timeDisplay = _.once(() => {
 
 // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
 function updateTime() {
-  const time = utcToZonedTime(new Date(), { timeZone })
+  const time = utcToZonedTime(new Date(), timeZone)
 
   const { dHours, dMinutes, dSeconds } = conversion(time)
   const { hoursRotation, minutesRotation, secondsRotation } = rotations({
     dHours,
     dMinutes,
-    dSeconds
+    dSeconds,
   })
 
   // DOM Reads
