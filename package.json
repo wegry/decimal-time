@@ -7,7 +7,6 @@
     "css-loader": "^6.8.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
-    "lodash-es": "^4.17.15",
     "postcss": "^8.4.27",
     "postcss-loader": "^7.3.3",
     "sass": "^1.64.1",

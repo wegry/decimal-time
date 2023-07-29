@@ -2,12 +2,26 @@ import { differenceInMilliseconds, startOfDay } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 
 import './index.scss'
-import * as _ from 'lodash-es'
 
 const STANDARD_SECONDS_PER_MINUTE = 60
 const STANDARD_SECONDS_PER_DAY = 86400
 const DECIMAL_SECONDS_PER_DAY = 100000
 const STANDARD_MILLISECONDS_PER_DAY = STANDARD_SECONDS_PER_DAY * 1000
+
+/**
+ * https://youmightnotneed.com/lodash
+ */
+function once(fn) {
+  let called = false
+  let result
+  return (...args) => {
+    if (!called) {
+      result = fn(...args)
+      called = true
+    }
+    return result
+  }
+}
 
 function renderMarkers() {
   const ticks = document.querySelector('.ticks')
@@ -17,12 +31,29 @@ function renderMarkers() {
     nextTick.innerHTML = `<div>${i}</div>`
     nextTick.className = `tick-10 n-${i}`
     ticks.appendChild(nextTick)
+
+    let fudge = 0
+    if (i === 5) {
+      fudge = 4
+    } else if (i !== 10) {
+      fudge = 3
+    }
+    const angle = (i / 10) * 360 + 45 + fudge
+
+    nextTick.style.transform = `rotate(${angle}deg)`
+    nextTick.querySelector('div').style.transform = `rotate(-${angle}deg)`
   }
 
   for (let i = 1; i <= 100; i++) {
     const nextTick = document.createElement('div')
     nextTick.innerHTML = `<div></div>`
     nextTick.className = `tick-100 n-${i}`
+
+    nextTick.style.transform = `rotate(${(i / 100) * 360 + 45}deg)`
+    if (i % 10 === 0) {
+      nextTick.classList.add('major')
+    }
+
     ticks.appendChild(nextTick)
   }
 }
@@ -77,7 +108,7 @@ function rotations({ dHours, dMinutes, dSeconds }) {
   }
 }
 
-const handSelectors = _.once(() => {
+const handSelectors = once(() => {
   const hourHand = document.querySelector('.hands .hour')
   const minuteHand = document.querySelector('.hands .minute')
   const secondHand = document.querySelector('.hands .second')
@@ -85,7 +116,7 @@ const handSelectors = _.once(() => {
   return { hourHand, minuteHand, secondHand }
 })
 
-const timeDisplay = _.once(() => {
+const timeDisplay = once(() => {
   return document.querySelector('.decimal-time')
 })
 

@@ -1652,13 +1652,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:^4.17.15":
-  version: 4.17.15
-  resolution: "lodash-es@npm:4.17.15"
-  checksum: dd76e36efca24f8294cdd99563c3bcaff8061732b04af8721313fe9a87e1f8e578ff466cfbcc103d1cb4db067d7d4bd143e3be390d957e22e0cb5d195b3847ed
-  languageName: node
-  linkType: hard
-
 "lru-cache@npm:^6.0.0":
   version: 6.0.0
   resolution: "lru-cache@npm:6.0.0"
@@ -2316,7 +2309,6 @@ __metadata:
     css-loader: ^6.8.1
     date-fns: ^2.30.0
     date-fns-tz: ^2.0.0
-    lodash-es: ^4.17.15
     postcss: ^8.4.27
     postcss-loader: ^7.3.3
     sass: ^1.64.1
