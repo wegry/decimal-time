@@ -5,7 +5,17 @@ import * as sass from 'sass'
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 
-let plugins = [new CopyWebpackPlugin({ patterns: ['./index.html'] })]
+const plugins = [
+  new CopyWebpackPlugin({
+    patterns: [
+      './index.html',
+      {
+        from: './*.ttf',
+        to: 'fonts',
+      },
+    ],
+  }),
+]
 
 export default {
   mode: IS_PROD ? 'production' : 'development',
