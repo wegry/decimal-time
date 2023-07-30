@@ -16,8 +16,11 @@
     "webpack-cli": "^5.1.4"
   },
   "browserslist": [
-    "last 2 versions and not dead"
+    "last 2 chrome versions",
+    "last 2 firefox versions",
+    "last 1 safari versions"
   ],
+  "type": "module",
   "scripts": {
     "build": "NODE_ENV=production webpack"
   },

@@ -1,21 +1,29 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const path = require('path')
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import * as sass from 'sass'
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 
 let plugins = [new CopyWebpackPlugin({ patterns: ['./index.html'] })]
 
-module.exports = {
+export default {
   mode: IS_PROD ? 'production' : 'development',
   entry: {
-    index: './index.js',
+    index: './index.mjs',
   },
   devtool: IS_PROD ? false : 'inline-cheap-module-source-map',
+  experiments: {
+    outputModule: true,
+  },
   output: {
-    filename: '[name].js',
-    chunkFilename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].mjs',
+    // https://stackoverflow.com/a/50052194/1924257
+    path: path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist'),
     assetModuleFilename: 'fonts/[name][ext]',
+    library: {
+      type: 'module',
+    },
   },
   plugins,
   module: {
@@ -29,7 +37,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              implementation: require('sass'),
+              implementation: sass,
             },
           },
         ],
