@@ -30,14 +30,19 @@ export default {
     rules: [
       {
         test: /\.scss$/,
+        generator: {
+          filename: 'index.css',
+        },
+        type: 'asset/resource',
         use: [
-          'style-loader',
-          'css-loader',
           'postcss-loader',
           {
             loader: 'sass-loader',
             options: {
               implementation: sass,
+              sassOptions: {
+                outputStyle: 'compressed',
+              },
             },
           },
         ],
