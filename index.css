@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'Fira Code';
-  src: url(/fonts/FiraCode-VariableFont:wght.ttf);
+  src: url('/fonts/FiraCode-VariableFont:wght.ttf');
 }
 
 @font-face {
   font-family: 'EB Garamond';
-  src: url(/fonts/EBGaramond-VariableFont:wght.ttf);
+  src: url('/fonts/EBGaramond-VariableFont:wght.ttf');
 }
 
 :root {
@@ -25,10 +25,7 @@ body {
   justify-content: center;
   overflow: none;
   position: fixed;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
 }
 
 header {
@@ -51,6 +48,10 @@ header {
     text-decoration: none;
     color: black;
 
+    + a {
+      margin-left: 20px;
+    }
+
     &:first-of-type {
       margin-left: auto;
     }
@@ -59,15 +60,6 @@ header {
   a:hover {
     text-decoration: underline;
   }
-
-  a + a {
-    margin-left: 20px;
-  }
-}
-
-.display {
-  display: flex;
-  flex-direction: column;
 }
 
 .analog-clock {
@@ -79,10 +71,11 @@ header {
   position: relative;
   display: flex;
   border-radius: 50%;
+
   /* https://tobiasahlin.com/blog/layered-smooth-box-shadows/ */
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.09), 0 4px 2px rgba(0, 0, 0, 0.09),
-    0 8px 4px rgba(0, 0, 0, 0.09), 0 16px 8px rgba(0, 0, 0, 0.09),
-    0 32px 16px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 1px rgb(0 0 0 / 9%), 0 4px 2px rgb(0 0 0 / 9%),
+    0 8px 4px rgb(0 0 0 / 9%), 0 16px 8px rgb(0 0 0 / 9%),
+    0 32px 16px rgb(0 0 0 / 9%);
 
   &::after {
     content: '';
@@ -90,13 +83,10 @@ header {
     height: 100%;
     width: 100%;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25),
-      inset 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 4px 4px rgba(0, 0, 0, 0.15),
-      inset 0 8px 8px rgba(0, 0, 0, 0.1), inset 0 16px 16px rgba(0, 0, 0, 0.05);
+    inset: 0;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 25%),
+      inset 0 2px 2px rgb(0 0 0 / 20%), inset 0 4px 4px rgb(0 0 0 / 15%),
+      inset 0 8px 8px rgb(0 0 0 / 10%), inset 0 16px 16px rgb(0 0 0 / 5%);
   }
 }
 
@@ -120,9 +110,9 @@ header {
     transform-origin: top center;
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
-      0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
-      0 16px 16px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 25%), 0 2px 2px rgb(0 0 0 / 20%),
+      0 4px 4px rgb(0 0 0 / 15%), 0 8px 8px rgb(0 0 0 / 10%),
+      0 16px 16px rgb(0 0 0 / 5%);
   }
 
   .hour {
@@ -154,7 +144,6 @@ li {
   border-radius: 50%;
   height: 100%;
   width: 100%;
-
   border: 4px solid white;
   position: absolute;
   display: flex;
@@ -199,20 +188,20 @@ li {
 
 .decimal-time {
   background-color: #f8f8f8;
-  font-family: 'Fira Code';
+  font-family: 'Fira Code', monospace;
   font-weight: 300;
   font-size: 40px;
   padding: 4px 16px;
   border: 4px solid black;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.09), 0 4px 2px rgba(0, 0, 0, 0.09),
-    0 8px 4px rgba(0, 0, 0, 0.09), 0 16px 8px rgba(0, 0, 0, 0.09),
-    0 32px 16px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 1px rgb(0 0 0 / 9%), 0 4px 2px rgb(0 0 0 / 9%),
+    0 8px 4px rgb(0 0 0 / 9%), 0 16px 8px rgb(0 0 0 / 9%),
+    0 32px 16px rgb(0 0 0 / 9%);
 
   &::after {
     content: '';
     inset: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25),
-      inset 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 4px 4px rgba(0, 0, 0, 0.15),
-      inset 0 8px 8px rgba(0, 0, 0, 0.1), inset 0 16px 16px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 25%),
+      inset 0 2px 2px rgb(0 0 0 / 20%), inset 0 4px 4px rgb(0 0 0 / 15%),
+      inset 0 8px 8px rgb(0 0 0 / 10%), inset 0 16px 16px rgb(0 0 0 / 5%);
   }
 }
