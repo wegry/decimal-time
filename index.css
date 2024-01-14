@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'Fira Code';
-  src: url('/fonts/FiraCode-VariableFont:wght.ttf');
+  src: url('./FiraCode-VariableFont:wght.ttf');
 }
 
 @font-face {
   font-family: 'EB Garamond';
-  src: url('/fonts/EBGaramond-VariableFont:wght.ttf');
+  src: url('./EBGaramond-VariableFont:wght.ttf');
 }
 
 :root {

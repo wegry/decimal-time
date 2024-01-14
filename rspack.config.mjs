@@ -22,30 +22,9 @@ export default function (env, argv) {
     },
     plugins: [
       new rspack.CopyRspackPlugin({
-        patterns: [
-          './index.html',
-          {
-            from: './*.ttf',
-            to: 'fonts',
-          },
-        ],
+        patterns: ['./index.html'],
       }),
       new rspack.SwcCssMinimizerRspackPlugin(),
     ],
-    module: {
-      rules: [
-        {
-          test: /\.css$/,
-          generator: {
-            filename: 'index.css',
-          },
-          type: 'asset/resource',
-        },
-        {
-          test: /\.(woff2)|(otf)|(ttf)$/,
-          type: 'asset',
-        },
-      ],
-    },
   }
 }
