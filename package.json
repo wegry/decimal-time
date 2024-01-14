@@ -2,11 +2,9 @@
   "license": "MIT",
   "main": "./index.js",
   "dependencies": {
-    "copy-webpack-plugin": "^11.0.0",
+    "copy-webpack-plugin": "^12.0.1",
     "date-fns": "^2.30.0",
-    "date-fns-tz": "^2.0.0",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "date-fns-tz": "^2.0.0"
   },
   "browserslist": [
     "last 2 chrome versions",
@@ -15,7 +13,12 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "NODE_ENV=production webpack"
+    "build": "rspack build --env=production"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.0.2",
+  "devDependencies": {
+    "@rspack/cli": "^0.5.0",
+    "@rspack/core": "^0.5.0",
+    "@types/copy-webpack-plugin": "^10.1.0"
+  }
 }
