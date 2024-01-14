@@ -1,7 +1,6 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import * as sass from 'sass'
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 
@@ -39,23 +38,11 @@ export default {
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         generator: {
           filename: 'index.css',
         },
         type: 'asset/resource',
-        use: [
-          'postcss-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: sass,
-              sassOptions: {
-                outputStyle: 'compressed',
-              },
-            },
-          },
-        ],
       },
       {
         test: /\.(woff2)|(otf)|(ttf)$/,

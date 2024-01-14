@@ -1,7 +1,7 @@
 import { differenceInMilliseconds, startOfDay } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 
-import './index.scss'
+import './index.css'
 
 const STANDARD_SECONDS_PER_MINUTE = 60
 const STANDARD_SECONDS_PER_DAY = 86400
