@@ -1,5 +1,4 @@
-import { differenceInMilliseconds, startOfDay } from 'date-fns'
-import { utcToZonedTime } from 'date-fns-tz'
+import { Temporal } from 'temporal-polyfill'
 
 import './index.css'
 
@@ -50,14 +49,17 @@ function padTime(time) {
   return String(Math.floor(time)).padStart(2, '0')
 }
 
-const timeZone = 'Europe/Paris'
+const timeZone = Temporal.TimeZone.from('Europe/Paris')
 
+/**
+ * @param {import('temporal-polyfill').Temporal.ZonedDateTime} time
+ */
 function conversion(time) {
-  const dayStart = startOfDay(time)
-  const decimalized = differenceInMilliseconds(time, dayStart)
-  // console.log(time, dayStart)
+  const dayStart = time.startOfDay()
+  const decimalized = time.since(dayStart)
 
-  const dayPortionPassed = decimalized / STANDARD_MILLISECONDS_PER_DAY
+  const dayPortionPassed =
+    decimalized.total('milliseconds') / STANDARD_MILLISECONDS_PER_DAY
   const dHours = dayPortionPassed * 10
   const dMinutes = (dayPortionPassed * 10 * 100) % 100
   const dSeconds = (dayPortionPassed * DECIMAL_SECONDS_PER_DAY) % 100
@@ -96,9 +98,9 @@ async function* timeStream() {
   while (true) {
     await new Promise((resolve) => setTimeout(resolve))
 
-    const time = utcToZonedTime(new Date(), timeZone)
+    const dateTime = Temporal.Now.zonedDateTimeISO(timeZone)
 
-    yield conversion(time)
+    yield conversion(dateTime)
   }
 }
 
