@@ -8,7 +8,7 @@ export default function (env, argv) {
   return {
     mode: isProduction ? 'production' : 'development',
     entry: {
-      index: './index.mjs',
+      index: './src/index.mjs',
     },
     devtool: isProduction ? false : 'inline-cheap-module-source-map',
     output: {
@@ -21,10 +21,11 @@ export default function (env, argv) {
       },
     },
     plugins: [
-      new rspack.CopyRspackPlugin({
-        patterns: ['./index.html'],
+      new rspack.HtmlRspackPlugin({
+        template: './src/index.html',
+        minify: isProduction,
+        scriptLoading: 'module',
       }),
-      new rspack.SwcCssMinimizerRspackPlugin(),
     ],
   }
 }

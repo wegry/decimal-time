@@ -1,0 +1,63 @@
+@font-face {
+  font-family: 'Fira Code';
+  src: url('./fonts/FiraCode-VariableFont:wght.ttf');
+}
+
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('./fonts/EBGaramond-VariableFont:wght.ttf');
+}
+
+:root {
+  --blue: #0055a4;
+  --red: #ef4135;
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  font-family: 'EB Garamond', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: baseline;
+  padding: 0 16px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 450;
+    user-select: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+
+    + a {
+      margin-left: 20px;
+    }
+
+    &:first-of-type {
+      margin-left: auto;
+    }
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
