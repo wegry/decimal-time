@@ -11,7 +11,7 @@ export function Markers() {
     }
 
     const angle = (i / 10) * 360 + 45 + fudge
-    return html`<div class="${s.tick10}" style="transform: rotate(${angle}deg">
+    return html`<div class="${s.tick10}" style="transform: rotate(${angle}deg)">
       <div style="transform: rotate(-${angle}deg">${i}</div>
     </div>`
   })
@@ -19,7 +19,7 @@ export function Markers() {
   const ticks = Array.from({ length: 100 }).map((_, i) => {
     return html`<div
       class="${s.tick100} ${i % 10 === 0 ? 'major' : ''}"
-      style="transform: rotate(${(i / 100) * 360}deg);"
+      style="transform: rotate(${(i / 100) * 360 + 45}deg);"
     >
       <div></div>
     </div>`
