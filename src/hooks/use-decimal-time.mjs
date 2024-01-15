@@ -22,6 +22,25 @@ function conversion(time) {
   }
 }
 
+/** https://gist.github.com/AlexJWayne/1d99b3cd81d610ac7351 */
+function accurateInterval(time, fn) {
+  const nextAt = new Date().getTime() + time
+  let timeout = null
+
+  function wrapper() {
+    nextAt += time
+    timeout = setTimeout(wrapper, nextAt - new Date().getTime())
+    return fn()
+  }
+  function cancel() {
+    return clearTimeout(timeout)
+  }
+  timeout = setTimeout(wrapper, nextAt - new Date().getTime())
+  return {
+    cancel: cancel,
+  }
+}
+
 const timeZone = Temporal.TimeZone.from('Europe/Paris')
 
 export function useDecimalTime() {
@@ -32,25 +51,14 @@ export function useDecimalTime() {
   })
 
   useEffect(() => {
-    async function* timeStream() {
-      while (true) {
-        await new Promise((resolve) => setTimeout(resolve))
-        const dateTime = Temporal.Now.zonedDateTimeISO(timeZone)
-        const delta = conversion(dateTime)
-        yield delta
-      }
-    }
-
-    const stream = timeStream()
-
-    ;(async () => {
-      for await (const delta of stream) {
-        setDecimalTime(delta)
-      }
-    })()
+    const interval = accurateInterval(840, () => {
+      const dateTime = Temporal.Now.zonedDateTimeISO(timeZone)
+      const delta = conversion(dateTime)
+      setDecimalTime(delta)
+    })
 
     return () => {
-      stream.return()
+      interval.cancel()
     }
   }, [])
 
